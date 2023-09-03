@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ category }}</h1>
+{% block menu %}
+    {% if category == 'кухня' %}
+        <ul>
+            <li><a href="/product/стулья">Стулья</a></li>
+            <li><a href="/product/столы">Столы</a></li>
+        </ul>
+    {% elif category == 'гостиная' %}
+        <ul>
+            <li><a href="/product/диваны">Диваны</a></li>
+            <li><a href="/product/кровати">Кровати</a></li>
+        </ul>
+    {% endif %}
+{% endblock %}
+{% endblock %}
