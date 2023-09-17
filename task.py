@@ -4,10 +4,8 @@ import threading
 import multiprocessing
 import asyncio
 import time
-import sys
+import argparse
 
-
-# Скачка и загрузка на диск
 
 def download_image(url):
     start_time = time.time()  # Засекаем время начала загрузки
@@ -21,15 +19,11 @@ def download_image(url):
             print(f"Скачано: {filename} (Время: {end_time - start_time:.2f} сек)")
 
 
-image_urls = sys.argv[1:]
+parser = argparse.ArgumentParser(description="Скачивание изображений с заданных URL-адресов.")
+parser.add_argument("urls", nargs="+", help="Список URL-адресов изображений")
+args = parser.parse_args()
 
-if __name__ == '__main__':
-
-    image_urls = [
-        "https://w.forfun.com/fetch/ef/ef5d5a59c4a4d9d1deb9a3722b744951.jpeg",
-        "https://i1.wallbox.ru/wallpapers/main/201547/9dbdf1269bf5a53.jpg"
-    ]
-
+image_urls = args.urls
 
 threads = []
 for url in image_urls:
@@ -60,12 +54,13 @@ async def async_download_image(url):
             end_time = time.time()
             print(f"Скачано (асинхронно): {filename} (Время: {end_time - start_time:.2f} сек)")
 
-
 loop = asyncio.get_event_loop()
 tasks = [async_download_image(url) for url in image_urls]
 
 start_time_total = time.time()  # Засекаем время начала выполнения программы
 
 loop.run_until_complete(asyncio.gather(*tasks))
+
 end_time_total = time.time()
 print(f"Программа завершена. Общее время: {end_time_total - start_time_total:.2f} сек")
+
